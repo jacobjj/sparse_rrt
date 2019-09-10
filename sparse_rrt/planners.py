@@ -1,4 +1,4 @@
-import _sst_module
+import sparse_rrt._sst_module
 
 from sparse_rrt.visualization import render_svg, svg_header, svg_footer
 
