@@ -1,4 +1,3 @@
-
 import time
 import numpy as np
 
@@ -32,8 +31,11 @@ def render_svg_pyside(svg_string):
     '''
     import PySide.QtSvg
     import PySide.QtGui
-    r = PySide.QtSvg.QSvgRenderer(PySide.QtCore.QXmlStreamReader(PySide.QtCore.QByteArray(svg_string)))
-    image = PySide.QtGui.QImage(r.defaultSize().width(), r.defaultSize().height(), PySide.QtGui.QImage.Format_ARGB32)
+    r = PySide.QtSvg.QSvgRenderer(
+        PySide.QtCore.QXmlStreamReader(PySide.QtCore.QByteArray(svg_string)))
+    image = PySide.QtGui.QImage(r.defaultSize().width(),
+                                r.defaultSize().height(),
+                                PySide.QtGui.QImage.Format_ARGB32)
 
     image.fill(PySide.QtGui.QColor(255, 255, 255, 255))
 
@@ -67,18 +69,23 @@ def render_svg_cairosvg(svg_string):
             """Create and return ``(cairo_surface, width, height)``."""
             width = int(width)
             height = int(height)
-            cairo_surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+            cairo_surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width,
+                                               height)
             return cairo_surface, width, height
 
         def finish(self):
             """
             Copy cairo surface to numpy array and invert black color to white
             """
-            cairo_array = np.frombuffer(self.cairo.get_data(), np.uint8).reshape(
-                self.cairo.get_height(), self.cairo.get_width(), 4)
-            img = np.ones((self.cairo.get_height(), self.cairo.get_width(), 3), np.uint8) * 255
+            cairo_array = np.frombuffer(self.cairo.get_data(),
+                                        np.uint8).reshape(
+                                            self.cairo.get_height(),
+                                            self.cairo.get_width(), 4)
+            img = np.ones((self.cairo.get_height(), self.cairo.get_width(), 3),
+                          np.uint8) * 255
             non_zeros = np.where(np.any(cairo_array, axis=2))
-            img[non_zeros[0], non_zeros[1], :] = cairo_array[non_zeros[0], non_zeros[1], :3]
+            img[non_zeros[0], non_zeros[1], :] = cairo_array[non_zeros[0],
+                                                             non_zeros[1], :3]
             self.output[0] = img
             return super(BinarySurface, self).finish()
 
@@ -105,13 +112,15 @@ def render_svg(svg_string):
         try:
             start_time = time.time()
             result = c(svg_string)
-            print('Took %s to convert' % (time.time() - start_time,))
+            print('Took %s to convert' % (time.time() - start_time, ))
             return result
         except:
             import traceback
             exceptions.append(traceback.format_exc())
 
-    raise Exception("Failed to convert svg to numpy. Here is the list of exceptions from converters:\n%s" % ('/n'.join(exceptions),))
+    raise Exception(
+        "Failed to convert svg to numpy. Here is the list of exceptions from converters:\n%s"
+        % ('/n'.join(exceptions), ))
 
 
 def create_svg_drawing():
@@ -121,23 +130,27 @@ def create_svg_drawing():
     '''
     import svgwrite
 
-    class RawSVGDrawing(svgwrite.container.SVG, svgwrite.elementfactory.ElementFactory):
+    class RawSVGDrawing(svgwrite.container.SVG,
+                        svgwrite.elementfactory.ElementFactory):
         pass
 
     return RawSVGDrawing()
 
 
-def svg_rectangle((x, y), (width, height), (image_width, image_height), **extra):
+def svg_rectangle(x_y_edge, w_h_dim, image_w_h_dim, **extra):
     '''
     Generate an svg rectangle with x, y in image coordinates in bottom-left coordinate system (!)
-    :param x, y: left-bottom corner
-    :param width, height: dimentions
+    :param x_y_dim (tuple) : (x,y) left-bottom corner
+    :param w_h_dim (tuple) : (width, height) dimentions
+    :param image_w_h_dim (tuple) : (image width, image height)
     :return: string to add to svg xml
     '''
+    (x, y) = x_y_edge
+    (width, height) = w_h_dim
+    (image_width, image_height) = image_w_h_dim
     drawing = create_svg_drawing()
-    return drawing.rect(
-        (x, image_height-y),
-        size=(width, -height), **extra).tostring()
+    return drawing.rect((x, image_height - y), size=(width, -height),
+                        **extra).tostring()
 
 
 def show_image_opencv(image, name, wait=False):
@@ -175,7 +188,8 @@ def show_image_pyside(image, name, wait=False):
         _pyside_app = QtGui.QApplication([name])
         _pyside_label = QtGui.QLabel()
 
-    imgQT = QtGui.QImage(image, image.shape[1], image.shape[0], QtGui.QImage.Format_ARGB32)
+    imgQT = QtGui.QImage(image, image.shape[1], image.shape[0],
+                         QtGui.QImage.Format_ARGB32)
     pixMap = QtGui.QPixmap.fromImage(imgQT)
 
     _pyside_label.setPixmap(pixMap)
@@ -209,4 +223,6 @@ def show_image(image, name, wait=False):
             import traceback
             exceptions.append(traceback.format_exc())
 
-    raise Exception("Failed to show image. Here is the list of exceptions from showing functions:\n%s" % ('/n'.join(exceptions),))
+    raise Exception(
+        "Failed to show image. Here is the list of exceptions from showing functions:\n%s"
+        % ('/n'.join(exceptions), ))
