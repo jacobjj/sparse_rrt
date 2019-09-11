@@ -122,7 +122,7 @@ class BaseSystem(ISystem):
         A helper to determine control dimensions based on state bounds
         :return: integer == state_dimensions
         '''
-        return len(self.get_control_dimensions())
+        return len(self.get_control_bounds())
 
     def distance_computer(self):
         '''
