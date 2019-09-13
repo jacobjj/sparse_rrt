@@ -61,9 +61,12 @@ def run_config(config):
     max_time_steps = int(config['max_time_steps'])
     integration_step = float(config['integration_step'])
 
-    run_planning_experiment(planner, system, config['number_of_iterations'],
-                            min_time_steps, max_time_steps, integration_step,
-                            config['debug_period'], config['display_type'])
+    planner = run_planning_experiment(planner, system,
+                                      config['number_of_iterations'],
+                                      min_time_steps, max_time_steps,
+                                      integration_step, config['debug_period'],
+                                      config['display_type'])
+    return planner
 
 
 def run_planning_experiment(planner,
@@ -142,3 +145,4 @@ def run_planning_experiment(planner,
 
     im = _display_begin(planner, system)
     _display_end(im, wait=False)
+    return planner
