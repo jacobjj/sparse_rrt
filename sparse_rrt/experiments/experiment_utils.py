@@ -29,17 +29,15 @@ def run_config(config):
     else:
         system = config['system']
     if config['planner'] == 'sst':
-        planner = SST(
-            state_bounds=system.get_state_bounds(),
-            control_bounds=system.get_control_bounds(),
-            distance=system.distance_computer(),
-            start_state=config['start_state'],
-            goal_state=config['goal_state'],
-            goal_radius=config['goal_radius'],
-            random_seed=config['random_seed'],
-            sst_delta_near=float(config['sst_delta_near']),
-            sst_delta_drain=float(config['sst_delta_drain'])
-        )
+        planner = SST(state_bounds=system.get_state_bounds(),
+                      control_bounds=system.get_control_bounds(),
+                      distance=system.distance_computer(),
+                      start_state=config['start_state'],
+                      goal_state=config['goal_state'],
+                      goal_radius=config['goal_radius'],
+                      random_seed=config['random_seed'],
+                      sst_delta_near=float(config['sst_delta_near']),
+                      sst_delta_drain=float(config['sst_delta_drain']))
     elif config['planner'] == 'rrt':
         planner = RRT(
             state_bounds=system.get_state_bounds(),
@@ -63,27 +61,19 @@ def run_config(config):
     max_time_steps = int(config['max_time_steps'])
     integration_step = float(config['integration_step'])
 
-    run_planning_experiment(
-        planner,
-        system,
-        config['number_of_iterations'],
-        min_time_steps,
-        max_time_steps,
-        integration_step,
-        config['debug_period'],
-        config['display_type']
-    )
+    run_planning_experiment(planner, system, config['number_of_iterations'],
+                            min_time_steps, max_time_steps, integration_step,
+                            config['debug_period'], config['display_type'])
 
 
-def run_planning_experiment(
-        planner,
-        system,
-        number_of_iterations,
-        min_time_steps,
-        max_time_steps,
-        integration_step,
-        debug_period,
-        display_type=None):
+def run_planning_experiment(planner,
+                            system,
+                            number_of_iterations,
+                            min_time_steps,
+                            max_time_steps,
+                            integration_step,
+                            debug_period,
+                            display_type=None):
     '''
     Simple standard runner of a single planning experiment
     :param planner: planner instance
@@ -98,7 +88,6 @@ def run_planning_experiment(
         - or 'tree' to display planner tree
         - or 'nodes' to display planner nodes
     '''
-
     def _display_begin(planner, system):
         if display_type is None:
             return None
@@ -132,13 +121,12 @@ def run_planning_experiment(
             visualization_start_time = time.time()
             im = _display_begin(planner, system)
 
-            print("Time: %.2fs, Iterations: %d, Planning time: %.2fms Vis time: %.2fms Nodes: %d, Solution Quality: %s" %
-                  (time.time() - start_time,
-                   iteration,
-                   1000*(time.time()-iteration_start_time)/debug_period,
-                   1000*(time.time() - visualization_start_time),
-                   planner.get_number_of_nodes(),
-                   solution_cost))
+            print(
+                "Time: %.2fs, Iterations: %d, Planning time: %.2fms Vis time: %.2fms Nodes: %d, Solution Quality: %s"
+                % (time.time() - start_time, iteration, 1000 *
+                   (time.time() - iteration_start_time) / debug_period, 1000 *
+                   (time.time() - visualization_start_time),
+                   planner.get_number_of_nodes(), solution_cost))
             iteration_start_time = time.time()
 
             _display_end(im, wait=False)
@@ -149,7 +137,8 @@ def run_planning_experiment(
         solution_cost = np.sum(costs)
 
         print("Time: %.2fs, Iterations: %d, Nodes: %d, Solution Quality: %s" %
-              (time.time() - start_time, number_of_iterations, planner.get_number_of_nodes(), solution_cost))
+              (time.time() - start_time, number_of_iterations,
+               planner.get_number_of_nodes(), solution_cost))
 
     im = _display_begin(planner, system)
     _display_end(im, wait=False)
