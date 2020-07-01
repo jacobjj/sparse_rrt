@@ -11,10 +11,10 @@ Here are the main contributions:
 The original codebase or SST planner is small enough to be easily understood and customized as opposed to OMPL SST implementation.
 
 ## INSTALLING
-To install the package just run pip:
+To install the package clone this directory to your system, and run the following command in your directory
 
 ```
-pip install sparse-rrt
+pip install -e .
 ```
 
 ## STANDARD EXPERIMENTS
@@ -43,11 +43,11 @@ visualization images can be displayed in the standalone window. This project inh
 to display SVG images, to convert them to RGB numpy arrays or to display them in a window.
 Visualization dependencies are not included in the package dependencies to ease installation. 
 Here are the packages that you may need to install to run visualization:
- - `PySide` or `cairosvg` - to render SVG in python. `PySide` is considerably faster (to install run `pip install pyside` or `pip install cairosvg`)
- - `PySide` or `python-opencv` - to open windows and display numpy images (`show_image` function). To install opencv, you can follow <href>https://www.learnopencv.com/install-opencv3-on-ubuntu/
+ - `cairosvg` - to render SVG in python. (`pip install cairosvg`)
+ - `python-opencv` - to open windows and display numpy images (`show_image` function). To install opencv, you can follow <href>https://www.learnopencv.com/install-opencv3-on-ubuntu/
  - `svgwrite` - to write SVG files from python. This is needed only if you use visualization of Systems written in python (to install run `pip install svgwrite`)
 
-The simplest option is to just install `PySide`. Here is how you can run standard experiment with visualization.
+**Note: **You might also have to install libcairo package on your system(`sudo apt-get install libcairo-dev`)
 ```python
 from sparse_rrt.experiments import run_standard_experiment
 run_standard_experiment('sst_car', visualization=True)
