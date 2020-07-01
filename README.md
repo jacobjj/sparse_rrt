@@ -13,7 +13,7 @@ The original codebase or SST planner is small enough to be easily understood and
 ## INSTALLING
 To install the package clone this directory to your system,
 ```
-git clone https://github.com/jacobjj/sparse_rrt.git
+git clone --recurse-submodules https://github.com/jacobjj/sparse_rrt.git
 ```
 Run the following command within the sparse-rrt folder to install the package.
 
