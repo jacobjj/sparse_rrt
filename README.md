@@ -11,7 +11,11 @@ Here are the main contributions:
 The original codebase or SST planner is small enough to be easily understood and customized as opposed to OMPL SST implementation.
 
 ## INSTALLING
-To install the package clone this directory to your system, and run the following command in your directory
+To install the package clone this directory to your system,
+```
+git clone https://github.com/jacobjj/sparse_rrt.git
+```
+Run the following command within the sparse-rrt folder to install the package.
 
 ```
 pip install -e .
@@ -47,7 +51,7 @@ Here are the packages that you may need to install to run visualization:
  - `python-opencv` - to open windows and display numpy images (`show_image` function). To install opencv, you can follow <href>https://www.learnopencv.com/install-opencv3-on-ubuntu/
  - `svgwrite` - to write SVG files from python. This is needed only if you use visualization of Systems written in python (to install run `pip install svgwrite`)
 
-**Note: **You might also have to install libcairo package on your system(`sudo apt-get install libcairo-dev`)
+**Note:** You might also have to install libcairo package on your system(`sudo apt-get install libcairo-dev`)
 ```python
 from sparse_rrt.experiments import run_standard_experiment
 run_standard_experiment('sst_car', visualization=True)
